@@ -1,28 +1,15 @@
 package co.edu.konradlorenz.model;
 
-public class Profesor extends Usuario implements Registrable {
-
-    public Profesor() {
-        asignarCodigoProfesor();
-    }
-
-    public Profesor(String clave) throws ExcepcionNombreVacio {
-        super(clave); 
-        asignarCodigoProfesor();
-    }
+public class Profesor extends Usuario {
     
-    public Asignatura buscarAsignatura(String nombre) {
-        for (Asignatura a : asignaturas) {
-            if (a.getNombre().equalsIgnoreCase(nombre)) {
-                return a;
-            }
-        }
-        return null;
+    public Profesor() {}
+    public Profesor(int id, int codigo, String nombre, String clave) {
+        super(id, codigo, nombre, clave);
     }
 
     @Override
-    public void registrar() {
-        asignarCodigoProfesor();
+    public TipoUsuario getTipo() {
+        return TipoUsuario.PROFESOR;
     }
+    
 }
-

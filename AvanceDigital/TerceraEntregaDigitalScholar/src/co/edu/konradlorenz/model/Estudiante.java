@@ -1,30 +1,15 @@
 package co.edu.konradlorenz.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-public class Estudiante extends Usuario implements Registrable {
-    private HashMap<String, Integer> notasTalleres = new HashMap<>();
-
-    public Estudiante() {
-        asignarCodigoEstudiante();
-    }
-
-    public Estudiante(String clave) throws ExcepcionNombreVacio {
-        super(clave); 
-        asignarCodigoEstudiante();
-    }
-
-    public void recibirNotaTaller(String nombreTaller, int nota) {
-        notasTalleres.put(nombreTaller, nota);
-    }
-
-    public HashMap<String, Integer> getNotasTalleres() {
-        return notasTalleres;
+public class Estudiante extends Usuario {
+    
+    public Estudiante() {}
+    public Estudiante(int id, int codigo, String nombre, String clave) {
+        super(id, codigo, nombre, clave);
     }
 
     @Override
-    public void registrar() {
-        asignarCodigoEstudiante();
+    public TipoUsuario getTipo() {
+        return TipoUsuario.ESTUDIANTE;
     }
+    
 }

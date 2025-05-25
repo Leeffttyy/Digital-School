@@ -5,7 +5,11 @@
 package co.edu.konradlorenz.view;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 /**
  *
@@ -19,10 +23,50 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         ButtonGroup botonGroup = new ButtonGroup();
-        botonGroup.add(PriBtnProfesor);
-        botonGroup.add(PriBtnEstudiante);
+        botonGroup.add(btnProfesor);
+        botonGroup.add(rbtEstudiante);
     }
 
+    public JRadioButton getRbtEstudiante() {
+        return rbtEstudiante;
+    }
+
+    public void setRbtEstudiante(JRadioButton rbtEstudiante) {
+        this.rbtEstudiante = rbtEstudiante;
+    }
+
+    public JRadioButton getBtnProfesor() {
+        return btnProfesor;
+    }
+
+    public void setBtnProfesor(JRadioButton btnProfesor) {
+        this.btnProfesor = btnProfesor;
+    }
+
+    public JButton getBtnIniciarSesion() {
+        return btnIniciarSesion;
+    }
+
+    public void setBtnIniciarSesion(JButton btnIniciarSesion) {
+        this.btnIniciarSesion = btnIniciarSesion;
+    }
+
+    public JPasswordField getjPasswordField1() {
+        return jPasswordField1;
+    }
+
+    public void setjPasswordField1(JPasswordField jPasswordField1) {
+        this.jPasswordField1 = jPasswordField1;
+    }
+
+    public JTextField getjTextField1() {
+        return jTextField1;
+    }
+
+    public void setjTextField1(JTextField jTextField1) {
+        this.jTextField1 = jTextField1;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,9 +84,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jTextField1 = new javax.swing.JTextField();
-        PriBtnProfesor = new javax.swing.JRadioButton();
-        PriBtnEstudiante = new javax.swing.JRadioButton();
-        PriIniciarSesion = new javax.swing.JButton();
+        btnProfesor = new javax.swing.JRadioButton();
+        rbtEstudiante = new javax.swing.JRadioButton();
+        btnIniciarSesion = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -72,38 +116,18 @@ public class Principal extends javax.swing.JFrame {
 
         jTextField1.setForeground(new java.awt.Color(51, 51, 51));
         jTextField1.setText("Usuario");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
 
-        PriBtnProfesor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        PriBtnProfesor.setText("Profesor");
-        PriBtnProfesor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriBtnProfesorActionPerformed(evt);
-            }
-        });
+        btnProfesor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnProfesor.setText("Profesor");
 
-        PriBtnEstudiante.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        PriBtnEstudiante.setText("Estudiante");
-        PriBtnEstudiante.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriBtnEstudianteActionPerformed(evt);
-            }
-        });
+        rbtEstudiante.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        rbtEstudiante.setText("Estudiante");
 
-        PriIniciarSesion.setBackground(new java.awt.Color(0, 0, 204));
-        PriIniciarSesion.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        PriIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        PriIniciarSesion.setText("INICIAR SESION");
-        PriIniciarSesion.setBorder(new javax.swing.border.MatteBorder(null));
-        PriIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PriIniciarSesionActionPerformed(evt);
-            }
-        });
+        btnIniciarSesion.setBackground(new java.awt.Color(0, 0, 204));
+        btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciarSesion.setText("INICIAR SESION");
+        btnIniciarSesion.setBorder(new javax.swing.border.MatteBorder(null));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -117,9 +141,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(PriBtnEstudiante)
+                        .addComponent(rbtEstudiante)
                         .addGap(43, 43, 43)
-                        .addComponent(PriBtnProfesor)))
+                        .addComponent(btnProfesor)))
                 .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -127,7 +151,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(89, 89, 89))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 21, Short.MAX_VALUE)
-                .addComponent(PriIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
         jPanel3Layout.setVerticalGroup(
@@ -145,10 +169,10 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PriBtnProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PriBtnEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbtEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PriIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
         );
 
@@ -251,35 +275,6 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void PriBtnEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriBtnEstudianteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PriBtnEstudianteActionPerformed
-
-    private void PriIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriIniciarSesionActionPerformed
-       if(PriBtnEstudiante.isSelected()){
-       EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
-       Easignaturas.setVisible(true);
-       this.dispose();
-}
-       if(PriBtnProfesor.isSelected()){
-       ProfesorPrincipal Pprincipal = new ProfesorPrincipal();
-       Pprincipal.setVisible(true);
-       this.dispose();
-       
-       } else {
-        JOptionPane.showMessageDialog(this, "Por favor selecciona Estudiante o Profesor.");
-    }
-       
-    }//GEN-LAST:event_PriIniciarSesionActionPerformed
-
-    private void PriBtnProfesorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PriBtnProfesorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PriBtnProfesorActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -316,9 +311,8 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton PriBtnEstudiante;
-    private javax.swing.JRadioButton PriBtnProfesor;
-    private javax.swing.JButton PriIniciarSesion;
+    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JRadioButton btnProfesor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -332,5 +326,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JRadioButton rbtEstudiante;
     // End of variables declaration//GEN-END:variables
 }

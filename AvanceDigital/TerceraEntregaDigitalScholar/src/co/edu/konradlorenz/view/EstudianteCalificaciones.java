@@ -4,6 +4,10 @@
  */
 package co.edu.konradlorenz.view;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Usuario
@@ -17,6 +21,64 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
         initComponents();
     }
 
+    public JButton getBtnAsignaturas() {
+        return btnAsignaturas;
+    }
+
+    public void setBtnAsignaturas(JButton btnAsignaturas) {
+        this.btnAsignaturas = btnAsignaturas;
+    }
+
+    public JButton getBtnCalificaciones() {
+        return btnCalificaciones;
+    }
+
+    public void setBtnCalificaciones(JButton btnCalificaciones) {
+        this.btnCalificaciones = btnCalificaciones;
+    }
+
+    public JButton getBtnCerrarSesion() {
+        return btnCerrarSesion;
+    }
+
+    public void setBtnCerrarSesion(JButton btnCerrarSesion) {
+        this.btnCerrarSesion = btnCerrarSesion;
+    }
+
+    public JButton getBtnTalleres() {
+        return btnTalleres;
+    }
+
+    public void setBtnTalleres(JButton btnTalleres) {
+        this.btnTalleres = btnTalleres;
+    }
+
+    public JButton getBtnVolver() {
+        return btnVolver;
+    }
+
+    public void setBtnVolver(JButton btnVolver) {
+        this.btnVolver = btnVolver;
+    }
+
+    public JComboBox<String> getCbbCalificaciones() {
+        return cbbCalificaciones;
+    }
+
+    public void setCbbCalificaciones(JComboBox<String> cbbCalificaciones) {
+        this.cbbCalificaciones = cbbCalificaciones;
+    }
+
+    public JLabel getLblCalificaciones() {
+        return lblCalificaciones;
+    }
+
+    public void setLblCalificaciones(JLabel lblCalificaciones) {
+        this.lblCalificaciones = lblCalificaciones;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,18 +92,18 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        EAsiganturas = new javax.swing.JButton();
-        ETalleres = new javax.swing.JButton();
-        ECalificaciones = new javax.swing.JButton();
-        ECerrarSesion = new javax.swing.JButton();
+        btnAsignaturas = new javax.swing.JButton();
+        btnTalleres = new javax.swing.JButton();
+        btnCalificaciones = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        EcalificacionesCombobox = new javax.swing.JComboBox<>();
-        EcalificaionesLabel = new javax.swing.JLabel();
-        VOLVER = new javax.swing.JButton();
+        cbbCalificaciones = new javax.swing.JComboBox<>();
+        lblCalificaciones = new javax.swing.JLabel();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,41 +117,41 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/{F7A357D4-CFF8-4D37-9265-B789B2C06B19}.png"))); // NOI18N
 
-        EAsiganturas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        EAsiganturas.setText("ASIGNATURAS");
-        EAsiganturas.setBorder(new javax.swing.border.MatteBorder(null));
-        EAsiganturas.addActionListener(new java.awt.event.ActionListener() {
+        btnAsignaturas.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnAsignaturas.setText("ASIGNATURAS");
+        btnAsignaturas.setBorder(new javax.swing.border.MatteBorder(null));
+        btnAsignaturas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EAsiganturasActionPerformed(evt);
+                btnAsignaturasActionPerformed(evt);
             }
         });
 
-        ETalleres.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        ETalleres.setText("TALLERES");
-        ETalleres.setBorder(new javax.swing.border.MatteBorder(null));
-        ETalleres.addActionListener(new java.awt.event.ActionListener() {
+        btnTalleres.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnTalleres.setText("TALLERES");
+        btnTalleres.setBorder(new javax.swing.border.MatteBorder(null));
+        btnTalleres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ETalleresActionPerformed(evt);
+                btnTalleresActionPerformed(evt);
             }
         });
 
-        ECalificaciones.setBackground(new java.awt.Color(153, 153, 153));
-        ECalificaciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        ECalificaciones.setText("CALIFICACIONES");
-        ECalificaciones.setBorder(new javax.swing.border.MatteBorder(null));
-        ECalificaciones.addActionListener(new java.awt.event.ActionListener() {
+        btnCalificaciones.setBackground(new java.awt.Color(153, 153, 153));
+        btnCalificaciones.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnCalificaciones.setText("CALIFICACIONES");
+        btnCalificaciones.setBorder(new javax.swing.border.MatteBorder(null));
+        btnCalificaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ECalificacionesActionPerformed(evt);
+                btnCalificacionesActionPerformed(evt);
             }
         });
 
-        ECerrarSesion.setBackground(new java.awt.Color(153, 153, 153));
-        ECerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        ECerrarSesion.setText("CERRAR SESION");
-        ECerrarSesion.setBorder(new javax.swing.border.MatteBorder(null));
-        ECerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnCerrarSesion.setBackground(new java.awt.Color(153, 153, 153));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnCerrarSesion.setText("CERRAR SESION");
+        btnCerrarSesion.setBorder(new javax.swing.border.MatteBorder(null));
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ECerrarSesionActionPerformed(evt);
+                btnCerrarSesionActionPerformed(evt);
             }
         });
 
@@ -101,13 +163,13 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(77, 77, 77)
-                .addComponent(EAsiganturas, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAsignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ETalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ECalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ECerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -115,10 +177,10 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EAsiganturas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ETalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ECalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ECerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAsignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(70, 70, 70))
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -178,15 +240,15 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        EcalificacionesCombobox.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        EcalificacionesCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FISICA", "MATEMATICAS", "PROGRAMACION ", "INFORMATICA", " " }));
-        EcalificacionesCombobox.addActionListener(new java.awt.event.ActionListener() {
+        cbbCalificaciones.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        cbbCalificaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "FISICA", "MATEMATICAS", "PROGRAMACION ", "INFORMATICA", " " }));
+        cbbCalificaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EcalificacionesComboboxActionPerformed(evt);
+                cbbCalificacionesActionPerformed(evt);
             }
         });
 
-        EcalificaionesLabel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lblCalificaciones.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -196,11 +258,11 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(EcalificacionesCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbbCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(252, Short.MAX_VALUE)
-                .addComponent(EcalificaionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(249, 249, 249))
         );
         jPanel4Layout.setVerticalGroup(
@@ -208,17 +270,17 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(EcalificacionesCombobox)
+                    .addComponent(cbbCalificaciones)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(66, 66, 66)
-                .addComponent(EcalificaionesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(191, Short.MAX_VALUE))
         );
 
-        VOLVER.setText("<- VOLVER");
-        VOLVER.addActionListener(new java.awt.event.ActionListener() {
+        btnVolver.setText("<- VOLVER");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                VOLVERActionPerformed(evt);
+                btnVolverActionPerformed(evt);
             }
         });
 
@@ -237,7 +299,7 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(VOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(109, 109, 109))
         );
@@ -253,7 +315,7 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(VOLVER, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -295,41 +357,41 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EAsiganturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EAsiganturasActionPerformed
+    private void btnAsignaturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignaturasActionPerformed
         EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
         Easignaturas.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_EAsiganturasActionPerformed
+    }//GEN-LAST:event_btnAsignaturasActionPerformed
 
-    private void ETalleresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ETalleresActionPerformed
+    private void btnTalleresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTalleresActionPerformed
         EstudianteTalleres Etalleres = new EstudianteTalleres();
         Etalleres.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_ETalleresActionPerformed
+    }//GEN-LAST:event_btnTalleresActionPerformed
 
-    private void ECalificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ECalificacionesActionPerformed
+    private void btnCalificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalificacionesActionPerformed
         EstudianteCalificaciones Ecalificaciones = new EstudianteCalificaciones();
         Ecalificaciones.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_ECalificacionesActionPerformed
+    }//GEN-LAST:event_btnCalificacionesActionPerformed
 
-    private void ECerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ECerrarSesionActionPerformed
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         Principal Pri = new Principal();
         Pri.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_ECerrarSesionActionPerformed
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
-    private void VOLVERActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VOLVERActionPerformed
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
         Easignaturas.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_VOLVERActionPerformed
+    }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void EcalificacionesComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EcalificacionesComboboxActionPerformed
+    private void cbbCalificacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbCalificacionesActionPerformed
        String msj = "Calificaciones en ";
-       msj = msj + EcalificacionesCombobox.getSelectedItem().toString();
-       EcalificaionesLabel.setText(msj);
-    }//GEN-LAST:event_EcalificacionesComboboxActionPerformed
+       msj = msj + cbbCalificaciones.getSelectedItem().toString();
+       lblCalificaciones.setText(msj);
+    }//GEN-LAST:event_cbbCalificacionesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -367,13 +429,12 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton EAsiganturas;
-    private javax.swing.JButton ECalificaciones;
-    private javax.swing.JButton ECerrarSesion;
-    private javax.swing.JButton ETalleres;
-    private javax.swing.JComboBox<String> EcalificacionesCombobox;
-    private javax.swing.JLabel EcalificaionesLabel;
-    private javax.swing.JButton VOLVER;
+    private javax.swing.JButton btnAsignaturas;
+    private javax.swing.JButton btnCalificaciones;
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnTalleres;
+    private javax.swing.JButton btnVolver;
+    private javax.swing.JComboBox<String> cbbCalificaciones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -383,5 +444,6 @@ public class EstudianteCalificaciones extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel lblCalificaciones;
     // End of variables declaration//GEN-END:variables
 }

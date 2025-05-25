@@ -2,59 +2,68 @@ package co.edu.konradlorenz.model;
 
 import java.util.ArrayList;
 
-public abstract class Usuario {
-    protected ArrayList<Asignatura> asignaturas = new ArrayList<>();
-    protected static int contadorEstudiantes = 1000;
-    protected static int contadorProfesores = 0;
-    protected String codigo, clave;
-
+public abstract class Usuario implements Registrable {
+    private int id;
+    private String codigo, nombre, clave;
+    private ArrayList<Asignatura> asignaturas = new ArrayList();
+    
     public Usuario() {}
-
-    public Usuario(String clave) throws ExcepcionNombreVacio {
-        if (clave == null || clave.trim().isEmpty()) {
-            throw new ExcepcionNombreVacio("La clave no puede estar vacía.");
-        }
+    public Usuario(String nombre, String clave) {
+        this.nombre = nombre;
+        this.clave = clave;
+    }
+    public Usuario(int id, int codigo, String nombre, String clave) {
+        this.id = id;
+        this.codigo = obtenerCodigo(codigo);
+        this.nombre = nombre;
         this.clave = clave;
     }
 
-    public static int getContadorEstudiantes() {
-        return contadorEstudiantes;
+    public int getId() {
+        return id;
     }
-
-    public static int getContadorProfesores() {
-        return contadorProfesores;
+    public String getNombre() {
+        return nombre;
     }
-
     public String getClave() {
         return clave;
     }
-
-    public void setClave(String clave) {
-        this.clave = clave;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
     public ArrayList<Asignatura> getAsignaturas() {
         return asignaturas;
     }
-    
-    public void agregarAsignatura(Asignatura asignatura) {
-        asignaturas.add(asignatura);
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+    public void setAsignaturas(ArrayList<Asignatura> asignaturas) {
+        this.asignaturas = asignaturas;
+    }
+    public String getCodigo() {
+        return codigo;
+    }
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+    @Override
+    public String toString() {
+        return nombre;
     }
     
-    protected String generarCodigo(int num) {
-        return String.format("%04d", num);
-    }
 
-    public void asignarCodigoEstudiante() {
-        this.codigo = generarCodigo(contadorEstudiantes++);
+    private String obtenerCodigo(int n) {
+        return String.format("%04d", n);
     }
-
-    public void asignarCodigoProfesor() {
-        this.codigo = generarCodigo(contadorProfesores++);
+    
+    public abstract TipoUsuario getTipo();
+    
+    @Override
+    public Object[] obtenerCampos(){
+        Object[] campos = {codigo, this, clave, getTipo()};
+        return campos;
     }
 }
-

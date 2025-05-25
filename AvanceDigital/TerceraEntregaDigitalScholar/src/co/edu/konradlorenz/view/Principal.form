@@ -169,9 +169,9 @@
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                               <Component id="jPasswordField1" min="-2" pref="226" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="PriBtnEstudiante" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbtEstudiante" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                                  <Component id="PriBtnProfesor" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnProfesor" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="44" max="32767" attributes="0"/>
@@ -183,7 +183,7 @@
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="21" max="32767" attributes="0"/>
-                          <Component id="PriIniciarSesion" min="-2" pref="284" max="-2" attributes="0"/>
+                          <Component id="btnIniciarSesion" min="-2" pref="284" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -203,11 +203,11 @@
                           <Component id="jPasswordField1" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="PriBtnProfesor" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
-                              <Component id="PriBtnEstudiante" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                              <Component id="btnProfesor" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
+                              <Component id="rbtEstudiante" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PriIniciarSesion" min="-2" pref="47" max="-2" attributes="0"/>
+                          <Component id="btnIniciarSesion" min="-2" pref="47" max="-2" attributes="0"/>
                           <EmptySpace pref="59" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -250,33 +250,24 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="Usuario"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="PriBtnProfesor">
+                <Component class="javax.swing.JRadioButton" name="btnProfesor">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Profesor"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PriBtnProfesorActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JRadioButton" name="PriBtnEstudiante">
+                <Component class="javax.swing.JRadioButton" name="rbtEstudiante">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Estudiante"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PriBtnEstudianteActionPerformed"/>
-                  </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="PriIniciarSesion">
+                <Component class="javax.swing.JButton" name="btnIniciarSesion">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="cc" green="0" red="0" type="rgb"/>
@@ -294,9 +285,6 @@
                       </Border>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PriIniciarSesionActionPerformed"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

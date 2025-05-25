@@ -2,20 +2,112 @@ package co.edu.konradlorenz.controller;
 
 import java.util.HashMap;
 import co.edu.konradlorenz.model.*;
-import co.edu.konradlorenz.view.Ventana;
-import java.util.Map;
-import co.edu.konradlorenz.view.Principal;
+import co.edu.konradlorenz.view.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
-public class Control {
-    private Ventana objV;
+public class Control implements ActionListener {
+    private Principal vPrincipal;
+    private EstudianteCalificaciones vEC;
     private HashMap<String, Usuario> listaUsuarios;
 
     public Control() {
-        this.objV = new Ventana();
-        this.listaUsuarios = new HashMap<>();
+        vPrincipal = new Principal();
+        vPrincipal.getBtnIniciarSesion().addActionListener(this);
+
+        vEC = new EstudianteCalificaciones();
+        vEC.getBtnAsignaturas().addActionListener(this);
+        vEC.getBtnCalificaciones().addActionListener(this);
+        vEC.getBtnCerrarSesion().addActionListener(this);
+        vEC.getBtnTalleres().addActionListener(this);
+        vEC.getBtnVolver().addActionListener(this);
+        vEC.getCbbCalificaciones().addActionListener(this);
+        
+        listaUsuarios = new HashMap<>();
     }
 
-    public void run() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == vPrincipal.getBtnIniciarSesion()) {
+            btnIniciarSesionActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnAsignaturas()) {
+            btnAsignaturasActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnCalificaciones()) {
+            btnCalificacionesActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnCerrarSesion()) {
+            btnCerrarSesionActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnTalleres()) {
+            btnTalleresActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnVolver()) {
+            btnVolverActionPerformed();
+        }
+        if (e.getSource() == vEC.getBtnCalificaciones()) {
+            btnCalificacionesActionPerformed();
+        }
+        if (e.getSource() == vEC.getCbbCalificaciones()) {
+            cbbCalificacionesActionPerformed();
+        }
+    }
+
+    private void btnIniciarSesionActionPerformed() {
+        if (vPrincipal.getRbtEstudiante().isSelected()) {
+            EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
+            Easignaturas.setVisible(true);
+            vPrincipal.dispose();
+        }
+        if (vPrincipal.getBtnProfesor().isSelected()) {
+            ProfesorPrincipal Pprincipal = new ProfesorPrincipal();
+            Pprincipal.setVisible(true);
+            vPrincipal.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(vPrincipal, "Por favor selecciona Estudiante o Profesor.");
+        }
+    }
+    
+    private void btnAsignaturasActionPerformed() {
+        EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
+        Easignaturas.setVisible(true);
+        vPrincipal.dispose();
+    }
+
+    private void btnTalleresActionPerformed() {
+        EstudianteTalleres Etalleres = new EstudianteTalleres();
+        Etalleres.setVisible(true);
+        vPrincipal.dispose();
+    }
+
+    private void btnCalificacionesActionPerformed() {
+        EstudianteCalificaciones Ecalificaciones = new EstudianteCalificaciones();
+        Ecalificaciones.setVisible(true);
+        vPrincipal.dispose();
+    }
+
+    private void btnCerrarSesionActionPerformed() {
+        Principal Pri = new Principal();
+        Pri.setVisible(true);
+        vPrincipal.dispose();
+    }
+
+    private void btnVolverActionPerformed() {
+        EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
+        Easignaturas.setVisible(true);
+        vPrincipal.dispose();
+    }
+
+    private void cbbCalificacionesActionPerformed() {
+        String msj = "Calificaciones en ";
+        msj = msj + vEC.getCbbCalificaciones().getSelectedItem().toString();
+        vEC.getLblCalificaciones().setText(msj);
+    }
+
+    /*public void run() {
         objV.mostrarTexto("DIGITAL SCHOLAR v1.0");
      Principal principal = new Principal();
      principal.setVisible(true);
@@ -421,5 +513,5 @@ public class Control {
         } catch (Exception e) {
             objV.mostrarTexto("Error inesperado al calificar: " + e.getMessage());
         }
-    }
+    }*/
 }

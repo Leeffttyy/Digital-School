@@ -96,7 +96,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="VOLVER" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
+                                  <Component id="btnVolver" alignment="0" min="-2" pref="136" max="-2" attributes="0"/>
                                   <Component id="jPanel4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -118,7 +118,7 @@
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="VOLVER" min="-2" pref="33" max="-2" attributes="0"/>
+                              <Component id="btnVolver" min="-2" pref="33" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -147,13 +147,13 @@
                           <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                           <Component id="jLabel1" min="-2" pref="208" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
-                          <Component id="EAsiganturas" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="btnAsignaturas" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ETalleres" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="btnTalleres" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ECalificaciones" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="btnCalificaciones" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="ECerrarSesion" min="-2" pref="197" max="-2" attributes="0"/>
+                          <Component id="btnCerrarSesion" min="-2" pref="197" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -163,10 +163,10 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="EAsiganturas" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
-                              <Component id="ETalleres" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
-                              <Component id="ECalificaciones" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
-                              <Component id="ECerrarSesion" alignment="3" min="-2" pref="69" max="-2" attributes="0"/>
+                              <Component id="btnAsignaturas" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="btnTalleres" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="btnCalificaciones" alignment="3" min="-2" pref="129" max="-2" attributes="0"/>
+                              <Component id="btnCerrarSesion" alignment="3" min="-2" pref="69" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       </Group>
@@ -185,7 +185,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="EAsiganturas">
+                <Component class="javax.swing.JButton" name="btnAsignaturas">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="0"/>
@@ -198,10 +198,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EAsiganturasActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAsignaturasActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="ETalleres">
+                <Component class="javax.swing.JButton" name="btnTalleres">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="0"/>
@@ -214,10 +214,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ETalleresActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTalleresActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="ECalificaciones">
+                <Component class="javax.swing.JButton" name="btnCalificaciones">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="99" green="99" red="99" type="rgb"/>
@@ -233,10 +233,10 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ECalificacionesActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCalificacionesActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="ECerrarSesion">
+                <Component class="javax.swing.JButton" name="btnCerrarSesion">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="99" green="99" red="99" type="rgb"/>
@@ -252,7 +252,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ECerrarSesionActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -316,12 +316,12 @@
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="EcalificacionesCombobox" min="-2" pref="236" max="-2" attributes="0"/>
+                          <Component id="cbbCalificaciones" min="-2" pref="236" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace pref="252" max="32767" attributes="0"/>
-                          <Component id="EcalificaionesLabel" min="-2" pref="568" max="-2" attributes="0"/>
+                          <Component id="lblCalificaciones" min="-2" pref="568" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="249" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -331,11 +331,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="EcalificacionesCombobox" max="32767" attributes="0"/>
+                              <Component id="cbbCalificaciones" max="32767" attributes="0"/>
                               <Component id="jPanel5" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                          <Component id="EcalificaionesLabel" min="-2" pref="154" max="-2" attributes="0"/>
+                          <Component id="lblCalificaciones" min="-2" pref="154" max="-2" attributes="0"/>
                           <EmptySpace pref="191" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -388,7 +388,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JComboBox" name="EcalificacionesCombobox">
+                <Component class="javax.swing.JComboBox" name="cbbCalificaciones">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="36" style="0"/>
@@ -404,13 +404,13 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EcalificacionesComboboxActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbbCalificacionesActionPerformed"/>
                   </Events>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JLabel" name="EcalificaionesLabel">
+                <Component class="javax.swing.JLabel" name="lblCalificaciones">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -421,12 +421,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="VOLVER">
+            <Component class="javax.swing.JButton" name="btnVolver">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;- VOLVER"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="VOLVERActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolverActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
