@@ -12,16 +12,16 @@ public class UsuarioAsignaturaDAO implements DAO {
     private AsignaturaDAO daoA = new AsignaturaDAO();
     
     @Override
-    public void insertar(Registrable registrable) {
-        try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR)) {
-            UsuarioAsignatura ua = (UsuarioAsignatura)registrable;
-            ps.setInt(1, ua.getUsuario().getId());
-            ps.setInt(2, ua.getAsignatura().getId());
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Error al insertar");
-            ex.printStackTrace();
+    public int insertar(Registrable registrable) throws SQLException {
+        if (registrable instanceof UsuarioAsignatura) {
+            try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR)) {
+                UsuarioAsignatura ua = (UsuarioAsignatura)registrable;
+                ps.setInt(1, ua.getUsuario().getId());
+                ps.setInt(2, ua.getAsignatura().getId());
+                ps.executeUpdate();
+            }
         }
+        return -1;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class UsuarioAsignaturaDAO implements DAO {
     }
 
     @Override
-    public void actualizar(Registrable registrable) {
+    public void actualizar(Registrable registrable) throws SQLException {
         eliminar(registrable);
         insertar(registrable);
     }

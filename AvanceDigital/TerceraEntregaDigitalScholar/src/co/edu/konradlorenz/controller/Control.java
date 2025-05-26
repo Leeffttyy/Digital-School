@@ -1,517 +1,498 @@
 package co.edu.konradlorenz.controller;
 
-import java.util.HashMap;
 import co.edu.konradlorenz.model.*;
 import co.edu.konradlorenz.view.*;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class Control implements ActionListener {
     private Principal vPrincipal;
-    private EstudianteCalificaciones vEC;
+    private Admin vAdmin;
+    private Estudiantes vEstudiantes;
+    private EAsignaturas vEA;
+    private ETalleres vET;
+    private ECalificaciones vEC;
+    private ProfesorPrincipal vProfesores;
+    
+    private Estudiante estudiante;
+    private Profesor profesor;
+    
+    private UsuarioDAO daoU = new UsuarioDAO();
+    private AsignaturaDAO daoA = new AsignaturaDAO();
+    private UsuarioAsignaturaDAO daoUA = new UsuarioAsignaturaDAO();
+    private TallerDAO daoT = new TallerDAO();
+    
+    private Registrable aux;
+    private boolean seleccionadoUsuario = true;
+    private boolean seleccionadoAsignatura = false;
+    private boolean seleccionadoRelacion = false;
     private HashMap<String, Usuario> listaUsuarios;
 
     public Control() {
         vPrincipal = new Principal();
         vPrincipal.getBtnIniciarSesion().addActionListener(this);
-
-        vEC = new EstudianteCalificaciones();
-        vEC.getBtnAsignaturas().addActionListener(this);
-        vEC.getBtnCalificaciones().addActionListener(this);
-        vEC.getBtnCerrarSesion().addActionListener(this);
-        vEC.getBtnTalleres().addActionListener(this);
-        vEC.getBtnVolver().addActionListener(this);
-        vEC.getCbbCalificaciones().addActionListener(this);
         
-        listaUsuarios = new HashMap<>();
+        vAdmin = new Admin();
+        vAdmin.getBtnMenuUsuario().addActionListener(this);
+        vAdmin.getBtnMenuAsignatura().addActionListener(this);
+        vAdmin.getBtnMenuUsuarioAsignatura().addActionListener(this);
+        vAdmin.getBtnListar().addActionListener(this);
+        vAdmin.getBtnMenuInsertar().addActionListener(this);
+        vAdmin.getBtnMenuActualizar().addActionListener(this);
+        vAdmin.getBtnEliminar().addActionListener(this);
+        vAdmin.getBtnConfirmar().addActionListener(this);
+        vAdmin.getBtnRegistrar().addActionListener(this);
+        vAdmin.getBtnHecho().addActionListener(this);
+        vAdmin.getBtnVolver().addActionListener(this);
+        
+        vEstudiantes = new Estudiantes();
+        vEA = new EAsignaturas();
+        vET = new ETalleres();
+        vEC = new ECalificaciones();
+        vEstudiantes.getEscritorio().add(vEA);
+        vEstudiantes.getEscritorio().add(vET);
+        vEstudiantes.getEscritorio().add(vEC);
+        
+        vEstudiantes.getBtnAsignaturas().addActionListener(this);
+        vEstudiantes.getBtnCalificaciones().addActionListener(this);
+        vEstudiantes.getBtnCerrarSesion().addActionListener(this);
+        vEstudiantes.getBtnTalleres().addActionListener(this);
+        vEstudiantes.getBtnVolver().addActionListener(this);
+        
     }
 
+    public void run() {
+        vPrincipal.setVisible(true);
+        
+        try {
+            HashMap<Integer, Asignatura> listaAsignaturas = daoA.cargarAsignaturas();
+            daoT.cargarRelaciones(listaAsignaturas);
+            
+            listaUsuarios = daoU.cargarUsuarios();
+            
+            if (listaUsuarios==null) {
+                JOptionPane.showMessageDialog(vPrincipal, "Bienvenido por primera vez, señor Administrador. Su código de usuario es 0000");
+                JPasswordField pswClave = new JPasswordField();
+                JOptionPane.showConfirmDialog(null, pswClave, "Ingrese su contraseña", JOptionPane.OK_CANCEL_OPTION);
+
+                agregarUsuario(new Profesor(
+                        "Administrador",
+                        new String(pswClave.getPassword())));
+            } else {
+                daoU.cargarRelaciones(listaUsuarios);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al cargar datos");
+        }
+    }
+    
+    private DAO obtenerDAOActual() {
+        if(seleccionadoUsuario) {
+            return new UsuarioDAO();
+        } else if (seleccionadoAsignatura) {
+            return new AsignaturaDAO();
+        } else if (seleccionadoRelacion) {
+            return new UsuarioAsignaturaDAO();
+        }
+        return null;
+    }
+    
+    private void agregarUsuario(Usuario plantilla) {
+        try {
+            int id = daoU.insertar(plantilla);
+            if (id!=-1) {
+                Usuario nuevo = daoU.obtenerPorId(id);
+                listaUsuarios.put(nuevo.getCodigo(), nuevo);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al insertar");
+        }
+    }
+    
+    private void irDesdeAVentana(JFrame origen, JFrame destino) {
+        destino.setVisible(true);
+        origen.dispose();
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vPrincipal.getBtnIniciarSesion()) {
             btnIniciarSesionActionPerformed();
         }
-        if (e.getSource() == vEC.getBtnAsignaturas()) {
-            btnAsignaturasActionPerformed();
+        
+        if (e.getSource()==vAdmin.getBtnMenuUsuario()) {
+            btnMenuUsuarioAccionar();
         }
-        if (e.getSource() == vEC.getBtnCalificaciones()) {
-            btnCalificacionesActionPerformed();
+        if (e.getSource()==vAdmin.getBtnMenuAsignatura()) {
+            btnMenuAsignaturaAccionar();
         }
-        if (e.getSource() == vEC.getBtnCerrarSesion()) {
-            btnCerrarSesionActionPerformed();
+        if (e.getSource()==vAdmin.getBtnMenuUsuarioAsignatura()) {
+            btnMenuUsuarioAsignaturaAccionar();
         }
-        if (e.getSource() == vEC.getBtnTalleres()) {
-            btnTalleresActionPerformed();
+        if (e.getSource()==vAdmin.getBtnListar()) {
+            btnListarAccionar();
         }
-        if (e.getSource() == vEC.getBtnVolver()) {
-            btnVolverActionPerformed();
+        if (e.getSource()==vAdmin.getBtnMenuInsertar()) {
+            btnMenuInsertarAccionar();
         }
-        if (e.getSource() == vEC.getBtnCalificaciones()) {
-            btnCalificacionesActionPerformed();
+        if (e.getSource()==vAdmin.getBtnMenuActualizar()) {
+            btnMenuActualizarAccionar();
         }
-        if (e.getSource() == vEC.getCbbCalificaciones()) {
-            cbbCalificacionesActionPerformed();
+        if (e.getSource()==vAdmin.getBtnEliminar()) {
+            btnEliminarAccionar();
         }
+        if (e.getSource()==vAdmin.getBtnConfirmar()) {
+            btnConfirmarAccionar();
+        }
+        if (e.getSource()==vAdmin.getBtnRegistrar()) {
+            btnRegistrarAccionar();
+        }
+        if (e.getSource()==vAdmin.getBtnHecho()) {
+            btnHechoAccionar();
+        }
+        if (e.getSource()==vAdmin.getBtnVolver()) {
+            irDesdeAVentana(vAdmin, vPrincipal);
+        }
+        
+        if (e.getSource() == vEstudiantes.getBtnAsignaturas()) {
+            vEA.setVisible(true);
+            //vEC.setVisible(false);
+            //vET.setVisible(false);
+        }
+        if (e.getSource() == vEstudiantes.getBtnCalificaciones()) {
+            vEC.setVisible(true);
+            //vEA.setVisible(false);
+            //vET.setVisible(false);
+        }
+        if (e.getSource() == vEstudiantes.getBtnTalleres()) {
+            vET.setVisible(true);
+            //vEA.setVisible(false);
+            //vEC.setVisible(false);
+        }
+        if (e.getSource() == vEstudiantes.getBtnCerrarSesion()) {
+            irDesdeAVentana(vEstudiantes, vPrincipal);
+        }
+        //if (e.getSource() == vEstudiantes.getBtnVolver()) {}
+        
     }
 
     private void btnIniciarSesionActionPerformed() {
-        if (vPrincipal.getRbtEstudiante().isSelected()) {
-            EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
-            Easignaturas.setVisible(true);
-            vPrincipal.dispose();
-        }
-        if (vPrincipal.getBtnProfesor().isSelected()) {
-            ProfesorPrincipal Pprincipal = new ProfesorPrincipal();
-            Pprincipal.setVisible(true);
-            vPrincipal.dispose();
-
-        } else {
-            JOptionPane.showMessageDialog(vPrincipal, "Por favor selecciona Estudiante o Profesor.");
+        try {
+            Usuario usuario = daoU.autenticar(
+                    vPrincipal.getTxtCodigo().getText(),
+                    new String(vPrincipal.getPswClave().getPassword()));
+            if (usuario!=null) {
+                if (usuario.getCodigo().equals("0000")) {
+                    irDesdeAVentana(vPrincipal, vAdmin);
+                    relistar(obtenerDAOActual());
+                } else if (usuario.getTipo()==TipoUsuario.ESTUDIANTE) {
+                    estudiante = (Estudiante)usuario;
+                    irDesdeAVentana(vPrincipal, vEstudiantes);
+                } else if (usuario.getTipo()==TipoUsuario.PROFESOR) {
+                    profesor = (Profesor)usuario;
+                    irDesdeAVentana(vPrincipal, vProfesores);
+                }
+            } else {
+                JOptionPane.showMessageDialog(vPrincipal, "Código o Contraseña incorrectos");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vPrincipal, "Formato de código incorrecto");
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al autenticar");
         }
     }
     
-    private void btnAsignaturasActionPerformed() {
-        EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
-        Easignaturas.setVisible(true);
-        vPrincipal.dispose();
+    
+    private boolean confirmarSeleccionado(Registrable registrable) {
+        boolean noNulo = registrable!=null;
+        if (noNulo) {
+            vAdmin.getBtnEliminar().setEnabled(true);
+            vAdmin.getBtnHecho().setEnabled(true);
+        }
+        return noNulo;
     }
-
-    private void btnTalleresActionPerformed() {
-        EstudianteTalleres Etalleres = new EstudianteTalleres();
-        Etalleres.setVisible(true);
-        vPrincipal.dispose();
+    private void btnConfirmarAccionar() {
+        confirmarSeleccionado((Registrable)obtenerSeleccionTabla(1));
+    }             
+    private void relistar(DAO dao) {
+        cambiarVariables(null);
+        vAdmin.getTblTabla().setVisible(true);
+        vAdmin.getSpnTabla().setVisible(true);
+        vAdmin.getPlRegistros().setVisible(false);
+        vAdmin.getBtnConfirmar().setVisible(true);
+        try {
+            ArrayList<Registrable> lista = dao.listar();
+            DefaultTableModel md = (DefaultTableModel) vAdmin.getTblTabla().getModel();
+            md.setRowCount(0);
+            
+            for (Registrable i : lista) {
+                Object fila[] = i.obtenerCampos();
+                md.addRow(fila);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al listar con "+dao.getClass());
+        }
     }
-
-    private void btnCalificacionesActionPerformed() {
-        EstudianteCalificaciones Ecalificaciones = new EstudianteCalificaciones();
-        Ecalificaciones.setVisible(true);
-        vPrincipal.dispose();
+    private Object obtenerSeleccionTabla(int columna) {
+        int fila = vAdmin.getTblTabla().getSelectedRow();
+        if (fila==-1) {
+            return null;
+        }
+        return vAdmin.getTblTabla().getModel().getValueAt(fila, columna);
     }
-
-    private void btnCerrarSesionActionPerformed() {
-        Principal Pri = new Principal();
-        Pri.setVisible(true);
-        vPrincipal.dispose();
+    private void btnMenuInsertarAccionar() {
+        cambiarVariables((Registrable)obtenerSeleccionTabla(1));
+        
+        vAdmin.getTblTabla().setVisible(false);
+        vAdmin.getSpnTabla().setVisible(false);
+        vAdmin.getPlRegistros().setVisible(true);
+        
+        vAdmin.getBtnConfirmar().setVisible(false);
+        vAdmin.getBtnHecho().setVisible(false);
+        vAdmin.getBtnRegistrar().setVisible(true);
     }
-
-    private void btnVolverActionPerformed() {
-        EstudiantesAsignaturas Easignaturas = new EstudiantesAsignaturas();
-        Easignaturas.setVisible(true);
-        vPrincipal.dispose();
+    private void btnRegistrarAccionar() {
+        DAO dao = obtenerDAOActual();
+        try {
+            if (dao instanceof UsuarioDAO) {
+                Usuario dto = null;
+                if (vAdmin.getCbbCampo3().getSelectedItem().equals(TipoUsuario.ESTUDIANTE)) {
+                    dto = new Estudiante();
+                } else if (vAdmin.getCbbCampo3().getSelectedItem().equals(TipoUsuario.PROFESOR)) {
+                    dto = new Profesor();
+                }
+                if (dto!=null) {
+                    dto.setNombre(vAdmin.getTxtCampo1().getText());
+                    dto.setClave(vAdmin.getTxtCampo2().getText());
+                    dao.insertar(dto);
+                }
+            }
+            if (dao instanceof AsignaturaDAO) {
+                try {
+                    Usuario u = daoU.obtenerPorCodigo(Integer.parseInt(vAdmin.getTxtCampo2().getText()));
+                    if (u!=null && u instanceof Profesor) {
+                        Asignatura dto = new Asignatura(vAdmin.getTxtCampo1().getText(), (Profesor)u);
+                        dao.insertar(dto);
+                    } else {
+                        System.out.println("El usuario con código "+vAdmin.getTxtCampo2().getText()+" no es profesor");
+                    }
+                } catch(NumberFormatException ex) {
+                    System.out.println("El usuario con código "+vAdmin.getTxtCampo2().getText()+" no es profesor");
+                }
+            }
+            if (dao instanceof UsuarioAsignaturaDAO) {
+                try {
+                    Usuario u = daoU.obtenerPorCodigo(Integer.parseInt(vAdmin.getTxtCampo1().getText()));
+                    Asignatura a = daoA.obtenerPorId(Integer.parseInt(vAdmin.getTxtCampo2().getText()));
+                    if (u!=null && a!=null) {
+                        UsuarioAsignatura dto = new UsuarioAsignatura(u, a);
+                        dao.insertar(dto);
+                    } else {
+                        System.out.println("Los códigos no existen");
+                    }
+                } catch(NumberFormatException ex) {
+                    System.out.println("Los códigos no existen");
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al insertar con "+dao.getClass());
+        }
+        relistar(dao);
     }
+    private void btnEliminarAccionar() {
+        try{
+            Registrable dto = (Registrable)obtenerSeleccionTabla(1);
+            if (dto!=null) {
+                DAO dao = obtenerDAOActual();
+                try {
+                    dao.eliminar(dto);
+                } catch (SQLException ex) {
+                    System.out.println("Error al eliminar con "+dao.getClass());
+                }
+                relistar(dao);
+            }
+            cambiarVariables(dto);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("No hay fila seleccionada");
+        }
+    }
+    private void btnMenuActualizarAccionar() {
+        Registrable dto = (Registrable)obtenerSeleccionTabla(1);
+        cambiarVariables(dto);
+        if (confirmarSeleccionado(dto)) {
+            aux = dto;
+        }
+        
+        vAdmin.getBtnConfirmar().setVisible(true);
+        vAdmin.getTblTabla().setVisible(true);
+        vAdmin.getSpnTabla().setVisible(true);
+        vAdmin.getPlRegistros().setVisible(true);
+        
+        TitledBorder tb = (TitledBorder)vAdmin.getPlRegistros().getBorder();
+        tb.setTitle("Seleccione el registro de la tabla para actualizarlo");
+        
+        vAdmin.getBtnRegistrar().setVisible(false);
+        vAdmin.getLblCampo3Cbb().setVisible(false);
+        vAdmin.getCbbCampo3().setVisible(false);
+        vAdmin.getBtnHecho().setVisible(true);
+    }
+    private void btnHechoAccionar() {
+        DAO dao = obtenerDAOActual();
+        try{
+            Registrable registrable = aux;
+            if (registrable==null) {
+                registrable = (Registrable)obtenerSeleccionTabla(1);
+            }
+            if (registrable!=null) {
+                if (dao instanceof UsuarioDAO) {
+                    Usuario dto = (Usuario)registrable;
+                    dto.setNombre(vAdmin.getTxtCampo1().getText());
+                    dto.setClave(vAdmin.getTxtCampo2().getText());
+                    dao.actualizar(dto);
+                }
+                if (dao instanceof AsignaturaDAO) {
+                    Asignatura dto = (Asignatura)registrable;
+                    dto.setNombre(vAdmin.getTxtCampo1().getText());
+                    try {
+                        Usuario u = daoU.obtenerPorCodigo(Integer.parseInt(vAdmin.getTxtCampo2().getText()));
+                        if (u!=null && u instanceof Profesor) {
+                            dto.setProfesor((Profesor)u);
+                            dao.actualizar(dto);
+                        } else {
+                            System.out.println("El usuario con código "+vAdmin.getTxtCampo2().getText()+" no es profesor");
+                        }
+                    } catch(NumberFormatException ex) {
+                        System.out.println("El formato del código es inválido");
+                    }
+                }
+                if (dao instanceof UsuarioAsignaturaDAO) {
+                    UsuarioAsignatura dto = (UsuarioAsignatura)registrable;
+                    try {
+                        Usuario u = daoU.obtenerPorCodigo(Integer.parseInt(vAdmin.getTxtCampo1().getText()));
+                        Asignatura a = daoA.obtenerPorId(Integer.parseInt(vAdmin.getTxtCampo2().getText()));
+                        if (u!=null && a!=null) {
+                            dto.setUsuario(u);
+                            dto.setAsignatura(a);
+                            dao.actualizar(dto);
+                        } else {
+                            System.out.println("Los códigos no existen");
+                        }
+                    } catch(NumberFormatException ex) {
+                        System.out.println("El formato de los códigos es inválido");
+                    }
+                }
+                relistar(dao);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al actualizar con "+dao.getClass());
+        }
+    }
+    private void btnListarAccionar() {
+        vAdmin.getBtnConfirmar().setVisible(false);
+        relistar(obtenerDAOActual());
+    }
+    private void cambiarVariables(Registrable registrable) {
+        vAdmin.getBtnEliminar().setEnabled(false);
+        vAdmin.getBtnHecho().setEnabled(false);
+        
+        vAdmin.getTxtCampo1().setText("");
+        vAdmin.getTxtCampo2().setText("");
+        
+        TitledBorder tb = (TitledBorder)vAdmin.getPlRegistros().getBorder();
+        DefaultTableModel md = (DefaultTableModel) vAdmin.getTblTabla().getModel();
+        if(seleccionadoUsuario) {
+            vAdmin.getLblCampo1().setVisible(true);
+            vAdmin.getLblCampo2().setVisible(true);
+            vAdmin.getLblCampo3Cbb().setVisible(true);
+            vAdmin.getCbbCampo3().setVisible(true);
+            
+            tb.setTitle("Registrar Usuario");
+            vAdmin.getLblCampo1().setText("Nombre del Usuario:");
+            vAdmin.getLblCampo2().setText("Clave:");
+            vAdmin.getCbbCampo3().setModel(new DefaultComboBoxModel(TipoUsuario.values()));
+            if (registrable!=null) {
+                Usuario usuario = (Usuario)registrable;
+                vAdmin.getTxtCampo1().setText(usuario.getNombre());
+                vAdmin.getTxtCampo2().setText(usuario.getClave());
+                vAdmin.getCbbCampo3().setSelectedItem(usuario.getTipo());
+            }
+            md.setColumnIdentifiers(new Object[]{"Código", "Nombre", "Clave", "Tipo"});
+        }
+        if (seleccionadoAsignatura) {
+            vAdmin.getLblCampo3Cbb().setVisible(false);
+            vAdmin.getCbbCampo3().setVisible(false);
+            vAdmin.getLblCampo1().setVisible(true);
+            vAdmin.getLblCampo2().setVisible(true);
+            
+            tb.setTitle("Registrar Asignatura");
+            vAdmin.getLblCampo1().setText("Nombre de la Asignatura:");
+            vAdmin.getLblCampo2().setText("Código del Profesor:");
+            if (registrable!=null) {
+                Asignatura asignatura = (Asignatura)registrable;
+                vAdmin.getTxtCampo1().setText(asignatura.getNombre());
+                if (asignatura.getProfesor()!=null) {
+                    vAdmin.getTxtCampo2().setText(asignatura.getProfesor().getCodigo());
+                }
+            }
+            md.setColumnIdentifiers(new Object[]{"ID", "Nombre", "Código Profesor", "Nombre Profesor"});
+        }
+        if (seleccionadoRelacion) {
+            vAdmin.getLblCampo3Cbb().setVisible(false);
+            vAdmin.getCbbCampo3().setVisible(false);
+            vAdmin.getLblCampo1().setVisible(true);
+            vAdmin.getLblCampo2().setVisible(true);
+            
+            tb.setTitle("Registrar relación");
+            vAdmin.getLblCampo1().setText("Código del Usuario");
+            vAdmin.getLblCampo2().setText("ID de la Asignatura");
+            if (registrable!=null) {
+                UsuarioAsignatura ua = (UsuarioAsignatura)registrable;
+                vAdmin.getTxtCampo1().setText(ua.getUsuario().getCodigo());
+                vAdmin.getTxtCampo2().setText(""+ua.getAsignatura().getId());
+            }
+            md.setColumnIdentifiers(new Object[]{"Código Usuario", "Nombre Usuario", "ID Asignatura", "Nombre Asignatura"});
+        }
+        vAdmin.repaint();
+    }
+    private void btnMenuUsuarioAccionar() {
+        seleccionadoUsuario = true;
+        seleccionadoAsignatura = false;
+        seleccionadoRelacion = false;
+        
+        cambiarVariables(null);
+        relistar(obtenerDAOActual());
+    }
+    private void btnMenuAsignaturaAccionar() {
+        seleccionadoAsignatura = true;
+        seleccionadoUsuario = false;
+        seleccionadoRelacion = false;
+        
+        cambiarVariables(null);
+        relistar(obtenerDAOActual());
+    }
+    private void btnMenuUsuarioAsignaturaAccionar() {
+        seleccionadoRelacion = true;
+        seleccionadoUsuario = false;
+        seleccionadoAsignatura = false;
+        
+        cambiarVariables(null);
+        relistar(obtenerDAOActual());
+    }
+    
 
-    private void cbbCalificacionesActionPerformed() {
+    /*private void cbbECCalificacionesActionPerformed() {
         String msj = "Calificaciones en ";
         msj = msj + vEC.getCbbCalificaciones().getSelectedItem().toString();
         vEC.getLblCalificaciones().setText(msj);
-    }
-
-    /*public void run() {
-        objV.mostrarTexto("DIGITAL SCHOLAR v1.0");
-     Principal principal = new Principal();
-     principal.setVisible(true);
-        int opcion = -1;
-        do {
-            try {
-                opcion = objV.pedirEntero(
-                        "\n0. Salir" +
-                        "\n1. Agregar nuevo Usuario" +
-                        "\n2. Acceder con Usuario" +
-                        "\nDigite la opción: ");
-
-                switch (opcion) {
-                    case 1:
-                        agregarUsuario();
-                        break;
-                    case 2:
-                        accederUsuario();
-                        break;
-                    case 0:
-                        objV.mostrarTexto("Saliendo del sistema...");
-                        break;
-                    default:
-                        objV.mostrarTexto("Opción inválida. Intente nuevamente.");
-                }
-            } catch (NumberFormatException e) {
-                objV.mostrarTexto("Error: debe ingresar un número válido.");
-            } catch (Exception e) {
-                objV.mostrarTexto("Error inesperado: " + e.getMessage());
-                
-            }
-        } while (opcion!=0);
-    }
-
-    private void agregarUsuario() {
-    int seleccion = 1;
-    try {
-        seleccion = objV.pedirEntero("\n1: Estudiante 2: Profesor 0: Atrás\nDigite la opción: ");
-
-        if (seleccion == 0) return;
-
-        if (seleccion != 1 && seleccion != 2) {
-            objV.mostrarTexto("Opción no válida.");
-            return;
-        }
-
-        String clave = objV.pedirTexto("Ingrese la clave: ");
-        if (clave == null || clave.trim().isEmpty()) {
-            throw new ExcepcionNombreVacio("La clave no puede estar vacía.");
-        }
-
-        Usuario usuario = (seleccion == 1) ?
-            new Estudiante(clave) :
-            new Profesor(clave);
-
-        String codigo = usuario.getCodigo();
-        if (listaUsuarios.containsKey(codigo)) {
-            throw new IllegalStateException("El código de usuario ya existe.");
-        }
-
-        listaUsuarios.put(codigo, usuario);
-        objV.mostrarTexto("Usuario creado con código " + codigo);
-
-    } catch (ExcepcionNombreVacio e) {
-        objV.mostrarTexto("Error: " + e.getMessage());
-    } catch (IllegalArgumentException e) {
-        objV.mostrarTexto("Error de validación: " + e.getMessage());
-    } catch (Exception e) {
-        objV.mostrarTexto("Error al agregar usuario: " + e.getMessage());
-    }
-}
-
-
-    private void accederUsuario() {
-        final int MAX_INTENTOS = 3;
-        int intentos = 0;
-        
-        while (intentos < MAX_INTENTOS) {
-            try {
-                String codigo = objV.pedirTexto("Digite su código: ");
-                String clave = objV.pedirTexto("Digite su clave: ");
-
-                if (codigo == null || codigo.trim().isEmpty() || 
-                    clave == null || clave.trim().isEmpty()) {
-                    throw new IllegalArgumentException("Código y clave son obligatorios.");
-                }
-
-                Usuario usuario = listaUsuarios.get(codigo);
-                if (usuario == null) {
-                    throw new SecurityException("Usuario no encontrado.");
-                }
-
-                if (!usuario.getClave().equals(clave)) {
-                    throw new SecurityException("Clave incorrecta.");
-                }
-
-              
-                if (usuario instanceof Estudiante) {
-                    mostrarMenuEstudiante((Estudiante) usuario);
-                } else if (usuario instanceof Profesor) {
-                    mostrarMenuProfesor((Profesor) usuario);
-                }
-                return;
-
-            } catch (SecurityException e) {
-                intentos++;
-                objV.mostrarTexto("Acceso denegado: " + e.getMessage());
-                objV.mostrarTexto("Intentos restantes: " + (MAX_INTENTOS - intentos));
-            } catch (Exception e) {
-                intentos++;
-                objV.mostrarTexto("Error: " + e.getMessage());
-            }
-        }
-        
-        objV.mostrarTexto("Demasiados intentos fallidos. Por favor intente más tarde.");
-    }
-
-    private void mostrarMenuEstudiante(Estudiante estudiante) {
-        int opcion = -1;
-        do {
-            try {
-                opcion = objV.pedirEntero("\nMENÚ ESTUDIANTE\n" +
-                        "1. Ver notas\n" +
-                        "2. Ver talleres pendientes\n" +
-                        "3. Subir asignación del taller\n" +
-                        "4. Salir\n" +
-                        "Seleccione una opción: ");
-
-                switch (opcion) {
-                    case 1:
-                        verNotas(estudiante);
-                        break;
-                    case 2:
-                        verTalleresPendientes(estudiante);
-                        break;
-                    case 3:
-                        subirAsignacionTaller(estudiante);
-                        break;
-                    case 4:
-                        objV.mostrarTexto("Saliendo del menú de estudiante.");
-                        break;
-                    default:
-                        objV.mostrarTexto("Opción inválida. Intente nuevamente.");
-                }
-            } catch (NumberFormatException e) {
-                objV.mostrarTexto("Error: debe ingresar un número válido.");
-            } catch (Exception e) {
-                objV.mostrarTexto("Error inesperado: " + e.getMessage());
-            }
-        } while (opcion != 4);
-    }
-
-    private void mostrarMenuProfesor(Profesor profesor) {
-        int opcion = -1;
-        do {
-            try {
-                opcion = objV.pedirEntero("\nMENÚ PROFESOR\n" +
-                        "1. Crear asignatura\n" +
-                        "2. Agregar estudiante\n" +
-                        "3. Crear taller\n" +
-                        "4. Asignar nota\n" +
-                        "5. Salir\n" +
-                        "Seleccione una opción: ");
-
-                switch (opcion) {
-                    case 1:
-                        crearAsignatura(profesor);
-                        break;
-                    case 2:
-                        agregarEstudiante(profesor);
-                        break;
-                    case 3:
-                        crearTaller(profesor);
-                        break;
-                    case 4:
-                        calificarTaller(profesor);
-                        break;
-                    case 5:
-                        objV.mostrarTexto("Saliendo del menú de profesor.");
-                        break;
-                    default:
-                        objV.mostrarTexto("Opción inválida. Intente nuevamente.");
-                }
-            } catch (NumberFormatException e) {
-                objV.mostrarTexto("Error: debe ingresar un número válido.");
-            } catch (Exception e) {
-                objV.mostrarTexto("Error inesperado: " + e.getMessage());
-            }
-        } while (opcion != 5);
-    }
-
-    private void verNotas(Estudiante estudiante) {
-        try {
-            if (estudiante.getNotasTalleres().isEmpty()) {
-                objV.mostrarTexto("No hay notas registradas para " + estudiante.getCodigo());
-                return;
-            }
-            
-            objV.mostrarTexto("\nNOTAS DE " + estudiante.getCodigo());
-            estudiante.getNotasTalleres().forEach((taller, nota) -> 
-                objV.mostrarTexto("Taller: " + taller + " - Nota: " + nota));
-                
-        } catch (Exception e) {
-            objV.mostrarTexto("Error al mostrar notas: " + e.getMessage());
-        }
-    }
-
-    private void verTalleresPendientes(Estudiante estudiante) {
-        try {
-            if (estudiante.getAsignaturas().isEmpty()) {
-                objV.mostrarTexto("No estás inscrito en ninguna asignatura.");
-                return;
-            }
-            
-            boolean tienePendientes = false;
-            objV.mostrarTexto("\nTALLERES PENDIENTES");
-            
-            for (Asignatura asignatura : estudiante.getAsignaturas()) {
-                for (Taller taller : asignatura.getTalleres()) {
-                    if (!taller.getRespuestas().containsKey(estudiante)) {
-                        objV.mostrarTexto("Asignatura: " + asignatura.getNombre() + 
-                                          " - Taller: " + taller.getNombre());
-                        tienePendientes = true;
-                    }
-                }
-            }
-            
-            if (!tienePendientes) {
-                objV.mostrarTexto("¡No tienes talleres pendientes!");
-            }
-        } catch (Exception e) {
-            objV.mostrarTexto("Error al mostrar talleres pendientes: " + e.getMessage());
-        }
-    }
-
-    private void subirAsignacionTaller(Estudiante estudiante) {
-        try {
-            if (estudiante.getAsignaturas().isEmpty()) {
-                objV.mostrarTexto("No estás inscrito en ninguna asignatura.");
-                return;
-            }
-            
-            String nombreTaller = objV.pedirTexto("Ingrese el nombre del taller: ");
-            if (nombreTaller == null || nombreTaller.trim().isEmpty()) {
-                throw new IllegalArgumentException("El nombre del taller es obligatorio.");
-            }
-            boolean encontrado = false;
-            for (Asignatura asignatura : estudiante.getAsignaturas()) {
-                var taller = asignatura.buscarTaller(nombreTaller);
-                if (taller != null && !taller.getRespuestas().containsKey(estudiante)) {
-                    String respuesta = objV.pedirTexto("Ingrese su respuesta: ");
-                    if (respuesta == null || respuesta.trim().isEmpty()) {
-                        throw new IllegalArgumentException("La respuesta no puede estar vacía.");
-                    }
-                    
-                    taller.subirRespuestas(estudiante, respuesta);
-                    objV.mostrarTexto("Respuesta subida exitosamente.");
-                    encontrado = true;
-                    break;
-                }
-            }
-            
-            if (!encontrado) {
-                throw new IllegalArgumentException("Taller no encontrado en tus asignaturas.");
-            }
-        } catch (IllegalArgumentException e) {
-            objV.mostrarTexto("Error: " + e.getMessage());
-        } catch (Exception e) {
-            objV.mostrarTexto("Error al subir asignación: " + e.getMessage());
-        }
-    }
-
-    private void crearAsignatura(Profesor profesor) {
-        try {
-            String nombre = objV.pedirTexto("Ingrese el nombre de la asignatura: ");
-            if (nombre == null || nombre.trim().isEmpty()) {
-                throw new IllegalArgumentException("El nombre de la asignatura es obligatorio.");
-            }
-            
-            if (profesor.buscarAsignatura(nombre) != null) {
-                throw new IllegalStateException("Ya existe una asignatura con ese nombre.");
-            }
-            
-            Asignatura asignatura = new Asignatura(nombre, profesor);
-            profesor.agregarAsignatura(asignatura);
-            objV.mostrarTexto("Asignatura '" + nombre + "' creada exitosamente.");
-            
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            objV.mostrarTexto("Error: " + e.getMessage());
-        } catch (Exception e) {
-            objV.mostrarTexto("Error inesperado al crear asignatura: " + e.getMessage());
-        }
-    }
-
-    private void agregarEstudiante(Profesor profesor) {
-        try {
-            
-            
-            String nombreAsignatura = objV.pedirTexto("Ingrese el nombre de la asignatura: ");
-            Asignatura asignatura = profesor.buscarAsignatura(nombreAsignatura);
-            if (asignatura == null) {
-                throw new IllegalArgumentException("Asignatura no encontrada.");
-            }
-
-            String codigoEstudiante = objV.pedirTexto("Ingrese el código del estudiante: ");
-            Usuario usuario = listaUsuarios.get(codigoEstudiante);
-            if (usuario == null) {
-                throw new IllegalArgumentException("Estudiante no encontrado.");
-            }
-            
-            if (!(usuario instanceof Estudiante)) {
-                throw new IllegalArgumentException("El código corresponde a un profesor, no a un estudiante.");
-            }
-            
-            Estudiante estudiante = (Estudiante) usuario;
-            
-            if (asignatura.buscarEstudiante(codigoEstudiante) != null) {
-                throw new IllegalStateException("El estudiante ya está inscrito en esta asignatura.");
-            }
-            
-            estudiante.agregarAsignatura(asignatura);
-            asignatura.agregarEstudiante(estudiante);
-            objV.mostrarTexto("Estudiante '" + codigoEstudiante + "' agregado exitosamente.");
-            
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            objV.mostrarTexto("Error: " + e.getMessage());
-        } catch (Exception e) {
-            objV.mostrarTexto("Error inesperado al agregar estudiante: " + e.getMessage());
-        }
-        
-        
-        
-    }
-
-    private void crearTaller(Profesor profesor) {
-        try {
-            String nombreAsignatura = objV.pedirTexto("Ingrese el nombre de la asignatura: ");
-            Asignatura asignatura = profesor.buscarAsignatura(nombreAsignatura);
-            if (asignatura == null) {
-                throw new IllegalArgumentException("Asignatura no encontrada.");
-            }
-
-            String nombreTaller = objV.pedirTexto("Ingrese el nombre del taller: ");
-            if (nombreTaller == null || nombreTaller.trim().isEmpty()) {
-                throw new IllegalArgumentException("El nombre del taller es obligatorio.");
-            }
-            
-            if (asignatura.buscarTaller(nombreTaller) != null) {
-                throw new IllegalStateException("Ya existe un taller con ese nombre.");
-            }
-
-            String descripcion = objV.pedirTexto("Ingrese la descripción del taller: ");
-            Taller taller = new Taller(nombreTaller, descripcion);
-            asignatura.agregarTaller(taller);
-            objV.mostrarTexto("Taller '" + nombreTaller + "' creado exitosamente.");
-            
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            objV.mostrarTexto("Error: " + e.getMessage());
-        } catch (Exception e) {
-            objV.mostrarTexto("Error inesperado al crear taller: " + e.getMessage());
-        }
-    }
-
-    private void calificarTaller(Profesor profesor) {
-        try {
-            String nombreAsignatura = objV.pedirTexto("Ingrese el nombre de la asignatura: ");
-            Asignatura asignatura = profesor.buscarAsignatura(nombreAsignatura);
-            if (asignatura == null) {
-                throw new IllegalArgumentException("Asignatura no encontrada.");
-            }
-
-            String nombreTaller = objV.pedirTexto("Ingrese el nombre del taller: ");
-            var taller = asignatura.buscarTaller(nombreTaller);
-            if (taller == null) {
-                throw new IllegalArgumentException("Taller no encontrado.");
-            }
-
-            String codigoEstudiante = objV.pedirTexto("Ingrese el código del estudiante: ");
-            Estudiante estudiante = asignatura.buscarEstudiante(codigoEstudiante);
-            if (estudiante == null) {
-                throw new IllegalArgumentException("Estudiante no encontrado en esta asignatura.");
-            }
-
-            if (!taller.getRespuestas().containsKey(estudiante)) {
-                throw new IllegalStateException("El estudiante no ha subido respuesta para este taller.");
-            }
-            objV.mostrarTexto(
-                    "Descripción: " + "\n" + taller.getDescripcion() +
-                    "\nRespuesta:" + "\n" + taller.getRespuestas().get(estudiante));
-
-            int nota = objV.pedirEntero("Ingrese la nota (0-100): ");
-            if (nota < 0 || nota > 100) {
-                throw new IllegalArgumentException("La nota debe estar entre 0 y 100.");
-            }
-
-            taller.calificarTaller(estudiante, nota);
-            objV.mostrarTexto("Nota asignada con éxito.");
-            
-        } catch (NumberFormatException e) {
-            objV.mostrarTexto("Error: debe ingresar un número válido para la nota.");
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            objV.mostrarTexto("Error: " + e.getMessage());
-        } catch (Exception e) {
-            objV.mostrarTexto("Error inesperado al calificar: " + e.getMessage());
-        }
     }*/
+
 }

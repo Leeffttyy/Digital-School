@@ -118,9 +118,9 @@ public class TallerDAO implements DAO {
     
     
     @Override
-    public void insertar(Registrable registrable) throws SQLException {
+    public int insertar(Registrable registrable) throws SQLException {
         if (registrable instanceof Taller) {
-            try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR)) {
+            try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR, Statement.RETURN_GENERATED_KEYS)) {
                 Taller taller = (Taller)registrable;
                 ps.setString(1, taller.getNombre());
                 ps.setString(2, taller.getDescripcion());
@@ -128,16 +128,15 @@ public class TallerDAO implements DAO {
                 ps.setInt(4, taller.getAsignatura().getId());
                 ps.executeUpdate();
                 
-                /*mirar si hacer Registrable clase abstracta con atributo int id, getter y setter
-                y hacer el siguiente bloque en cada insertar() de los DAO
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    ((Taller) registrable).setId(rs.getInt(1));
-                }*/
                 guardarRespuestas(taller);
                 guardarNotas(taller);
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         }
+        return -1;
     }
 
     @Override

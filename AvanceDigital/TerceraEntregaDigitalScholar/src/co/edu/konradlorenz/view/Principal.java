@@ -4,9 +4,8 @@
  */
 package co.edu.konradlorenz.view;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
+import javax.swing.JDesktopPane;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -22,25 +21,6 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        ButtonGroup botonGroup = new ButtonGroup();
-        botonGroup.add(btnProfesor);
-        botonGroup.add(rbtEstudiante);
-    }
-
-    public JRadioButton getRbtEstudiante() {
-        return rbtEstudiante;
-    }
-
-    public void setRbtEstudiante(JRadioButton rbtEstudiante) {
-        this.rbtEstudiante = rbtEstudiante;
-    }
-
-    public JRadioButton getBtnProfesor() {
-        return btnProfesor;
-    }
-
-    public void setBtnProfesor(JRadioButton btnProfesor) {
-        this.btnProfesor = btnProfesor;
     }
 
     public JButton getBtnIniciarSesion() {
@@ -51,20 +31,20 @@ public class Principal extends javax.swing.JFrame {
         this.btnIniciarSesion = btnIniciarSesion;
     }
 
-    public JPasswordField getjPasswordField1() {
-        return jPasswordField1;
+    public JPasswordField getPswClave() {
+        return pswClave;
     }
 
-    public void setjPasswordField1(JPasswordField jPasswordField1) {
-        this.jPasswordField1 = jPasswordField1;
+    public void setPswClave(JPasswordField pswClave) {
+        this.pswClave = pswClave;
     }
 
-    public JTextField getjTextField1() {
-        return jTextField1;
+    public JTextField getTxtCodigo() {
+        return txtCodigo;
     }
 
-    public void setjTextField1(JTextField jTextField1) {
-        this.jTextField1 = jTextField1;
+    public void setTxtCodigo(JTextField txtCodigo) {
+        this.txtCodigo = txtCodigo;
     }
     
     /**
@@ -82,10 +62,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
-        btnProfesor = new javax.swing.JRadioButton();
-        rbtEstudiante = new javax.swing.JRadioButton();
+        pswClave = new javax.swing.JPasswordField();
+        txtCodigo = new javax.swing.JTextField();
         btnIniciarSesion = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -110,23 +88,14 @@ public class Principal extends javax.swing.JFrame {
         jLabel5.setText("Contraseña");
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel6.setText("Usuario");
+        jLabel6.setText("Código del Usuario");
 
-        jPasswordField1.setText("jPasswordField1");
-
-        jTextField1.setForeground(new java.awt.Color(51, 51, 51));
-        jTextField1.setText("Usuario");
-
-        btnProfesor.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnProfesor.setText("Profesor");
-
-        rbtEstudiante.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        rbtEstudiante.setText("Estudiante");
+        txtCodigo.setForeground(new java.awt.Color(51, 51, 51));
 
         btnIniciarSesion.setBackground(new java.awt.Color(0, 0, 204));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.setText("INICIAR SESION");
+        btnIniciarSesion.setText("INICIAR SESIÓN");
         btnIniciarSesion.setBorder(new javax.swing.border.MatteBorder(null));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -137,14 +106,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(0, 39, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(rbtEstudiante)
-                        .addGap(43, 43, 43)
-                        .addComponent(btnProfesor)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(pswClave, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(56, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -162,16 +127,12 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(12, 12, 12)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnProfesor, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbtEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pswClave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
                 .addComponent(btnIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(59, Short.MAX_VALUE))
         );
@@ -312,7 +273,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIniciarSesion;
-    private javax.swing.JRadioButton btnProfesor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -324,8 +284,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JRadioButton rbtEstudiante;
+    private javax.swing.JPasswordField pswClave;
+    private javax.swing.JTextField txtCodigo;
     // End of variables declaration//GEN-END:variables
 }

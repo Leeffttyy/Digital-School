@@ -5,16 +5,39 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UsuarioDAO implements DAO {
-    private static final String SQL_INSERTAR = "INSERT INTO Usuario (tipo, codigo, nombre_u, clave) VALUES (?, ?, ?, ?)";
-    private static final String SQL_LISTAR = "SELECT * FROM Usuario";
-    private static final String SQL_ACTUALIZAR = "UPDATE Usuario SET nombre_u=?, clave=? WHERE id_u=?";
-    private static final String SQL_ELIMINAR = "DELETE FROM Usuario WHERE id_u=?";
+    private final String SQL_INSERTAR = "INSERT INTO Usuario (tipo, codigo, nombre_u, clave) VALUES (?, ?, ?, ?)";
+    private final String SQL_LISTAR = "SELECT * FROM Usuario";
+    private final String SQL_ACTUALIZAR = "UPDATE Usuario SET nombre_u=?, clave=? WHERE id_u=?";
+    private final String SQL_ELIMINAR = "DELETE FROM Usuario WHERE id_u=?";
     
-    private static final String SQL_OBTENER_POR_ID = "SELECT * FROM Usuario WHERE id_u=?";
-    private static final String SQL_OBTENER_POR_CODIGO = "SELECT * FROM Usuario WHERE codigo=?";
+    private final String SQL_OBTENER_POR_ID = "SELECT * FROM Usuario WHERE id_u=?";
+    private  final String SQL_OBTENER_POR_CODIGO = "SELECT * FROM Usuario WHERE codigo=?";
     
     
-    public void cargarRelaciones(HashMap<Integer, Usuario> usuarios) throws SQLException {
+    public Usuario autenticar(String codigo, String clave) throws NumberFormatException, SQLException {
+        Usuario usuario = obtenerPorCodigo(Integer.parseInt(codigo));
+        if (usuario!=null && usuario.getClave().equals(clave)) {
+            return usuario;
+        }
+        return null;
+    }
+    
+    public HashMap<String, Usuario> cargarUsuarios() throws SQLException {
+        HashMap<String, Usuario> listaUsuarios = new HashMap();
+        try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_LISTAR)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Usuario u = recrearUsuario(rs);
+                listaUsuarios.put(u.getCodigo(), u);
+            }
+        }
+        if (listaUsuarios.isEmpty()) {
+            return null;
+        }
+        return listaUsuarios;
+    }
+    
+    public void cargarRelaciones(HashMap<String, Usuario> usuarios) throws SQLException {
         AsignaturaDAO daoA = new AsignaturaDAO();
         for (Usuario usuario : usuarios.values()) {
             String sql = "SELECT id_a FROM Usuario_Asignatura WHERE id_u=?";
@@ -33,7 +56,7 @@ public class UsuarioDAO implements DAO {
     }
     
     @Override
-    public void insertar(Registrable registrable) throws SQLException {
+    public int insertar(Registrable registrable) throws SQLException {
         if (registrable instanceof Usuario) {
             Usuario usuario = (Usuario)registrable;
             String sqlSelect = "SELECT contador FROM ContadorTipo WHERE tipo=?";
@@ -58,14 +81,20 @@ public class UsuarioDAO implements DAO {
                 psUpdate.executeUpdate();
             }
 
-            try (PreparedStatement psInsert = CNX.getCnn().prepareStatement(SQL_INSERTAR)) {
+            try (PreparedStatement psInsert = CNX.getCnn().prepareStatement(SQL_INSERTAR, Statement.RETURN_GENERATED_KEYS)) {
                 psInsert.setString(1, usuario.getTipo().toString());
                 psInsert.setInt(2, contador);
                 psInsert.setString(3, usuario.getNombre());
                 psInsert.setString(4, usuario.getClave());
                 psInsert.executeUpdate();
+                
+                ResultSet rs = psInsert.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
         }
+        return -1;
     }
     
     @Override
@@ -143,7 +172,7 @@ public class UsuarioDAO implements DAO {
         return null;
     }
     
-    public Usuario obtenerPorCodigo(int codigo) {
+    public Usuario obtenerPorCodigo(int codigo) throws SQLException {
         try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_OBTENER_POR_CODIGO)) {
             ps.setInt(1, codigo);
             ResultSet rs = ps.executeQuery();

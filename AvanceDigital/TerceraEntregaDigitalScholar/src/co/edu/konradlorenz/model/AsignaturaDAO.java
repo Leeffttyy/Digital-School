@@ -1,27 +1,47 @@
 package co.edu.konradlorenz.model;
 
+import static co.edu.konradlorenz.model.DAO.CNX;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AsignaturaDAO implements DAO {
-    private static final String SQL_INSERTAR = "INSERT INTO Asignatura (nombre_a, profesor_id) VALUES (?, ?)";
-    private static final String SQL_LISTAR = "SELECT * FROM Asignatura";
-    private static final String SQL_ACTUALIZAR = "UPDATE Asignatura SET nombre_a=?, profesor_id=? WHERE id_a=?";
-    private static final String SQL_ELIMINAR = "DELETE FROM Asignatura WHERE id_a=?";
+    private final String SQL_INSERTAR = "INSERT INTO Asignatura (nombre_a, profesor_id) VALUES (?, ?)";
+    private final String SQL_LISTAR = "SELECT * FROM Asignatura";
+    private final String SQL_ACTUALIZAR = "UPDATE Asignatura SET nombre_a=?, profesor_id=? WHERE id_a=?";
+    private final String SQL_ELIMINAR = "DELETE FROM Asignatura WHERE id_a=?";
     
-    private static final String SQL_OBTENER_POR_ID = "SELECT * FROM Asignatura WHERE id_a=?";
+    private final String SQL_OBTENER_POR_ID = "SELECT * FROM Asignatura WHERE id_a=?";
+    
+    
+    public HashMap<Integer, Asignatura> cargarAsignaturas() throws SQLException {
+        HashMap<Integer, Asignatura> listaAsignaturas = new HashMap();
+        try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_LISTAR)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Asignatura asignatura = recrearAsignatura(rs);
+                listaAsignaturas.put(asignatura.getId(), asignatura);
+            }
+        }
+        return listaAsignaturas;
+    }
     
     @Override
-    public void insertar(Registrable registrable){
-        try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR)) {
-            Asignatura asignatura = (Asignatura)registrable;
-            ps.setString(1, asignatura.getNombre());
-            ps.setInt(2, asignatura.getProfesor().getId());
-            ps.executeUpdate();
-        } catch (SQLException ex) {
-            System.out.println("Error al insertar");
-            ex.printStackTrace();
+    public int insertar(Registrable registrable) throws SQLException {
+        if (registrable instanceof Asignatura) {
+            try (PreparedStatement ps = CNX.getCnn().prepareStatement(SQL_INSERTAR, Statement.RETURN_GENERATED_KEYS)) {
+                Asignatura asignatura = (Asignatura)registrable;
+                ps.setString(1, asignatura.getNombre());
+                ps.setInt(2, asignatura.getProfesor().getId());
+                ps.executeUpdate();
+                
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
         }
+        return -1;
     }
     
     @Override
