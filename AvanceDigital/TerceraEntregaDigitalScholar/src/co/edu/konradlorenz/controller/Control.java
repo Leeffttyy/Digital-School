@@ -7,12 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 public class Control implements ActionListener {
     private Principal vPrincipal;
@@ -25,6 +22,7 @@ public class Control implements ActionListener {
     
     private Estudiante estudiante;
     private Profesor profesor;
+    private Asignatura asignatura;
     
     private UsuarioDAO daoU = new UsuarioDAO();
     private AsignaturaDAO daoA = new AsignaturaDAO();
@@ -66,7 +64,14 @@ public class Control implements ActionListener {
         vEstudiantes.getBtnCalificaciones().addActionListener(this);
         vEstudiantes.getBtnCerrarSesion().addActionListener(this);
         vEstudiantes.getBtnTalleres().addActionListener(this);
-        vEstudiantes.getBtnVolver().addActionListener(this);
+        
+        vEA.getBtn1().addActionListener(this);
+        vEA.getBtn2().addActionListener(this);
+        vEA.getBtn3().addActionListener(this);
+        vEA.getBtn4().addActionListener(this);
+        vEA.getBtn5().addActionListener(this);
+        vEA.getBtn6().addActionListener(this);
+        vEA.getBtnSeleccionar().addActionListener(this);
         
     }
 
@@ -76,14 +81,15 @@ public class Control implements ActionListener {
         try {
             HashMap<Integer, Asignatura> listaAsignaturas = daoA.cargarAsignaturas();
             daoT.cargarRelaciones(listaAsignaturas);
-            
             listaUsuarios = daoU.cargarUsuarios();
-            
             if (listaUsuarios==null) {
+                listaUsuarios = new HashMap();
                 JOptionPane.showMessageDialog(vPrincipal, "Bienvenido por primera vez, señor Administrador. Su código de usuario es 0000");
                 JPasswordField pswClave = new JPasswordField();
-                JOptionPane.showConfirmDialog(null, pswClave, "Ingrese su contraseña", JOptionPane.OK_CANCEL_OPTION);
-
+                do{
+                    JOptionPane.showConfirmDialog(null, pswClave, "Ingrese su contraseña", JOptionPane.OK_CANCEL_OPTION);
+                } while (pswClave.getPassword()!=null);
+                
                 agregarUsuario(new Profesor(
                         "Administrador",
                         new String(pswClave.getPassword())));
@@ -118,6 +124,76 @@ public class Control implements ActionListener {
         }
     }
     
+    private void asignarAsignatura(Usuario usuario, Asignatura asignatura) {
+        try {
+            usuario.getAsignaturas().add(asignatura);
+            daoUA.insertar(new UsuarioAsignatura(usuario, asignatura));
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al insertar");
+        }
+    }
+    
+    private void rellenarPaneles(ArrayList<Asignatura> asignaturas) {
+        try {
+            vEA.getBtn1().setText(asignaturas.get(0).getNombre());
+            vEA.getBtn1().setEnabled(true);
+            vEA.getBtn2().setText(asignaturas.get(1).getNombre());
+            vEA.getBtn2().setEnabled(true);
+            vEA.getBtn3().setText(asignaturas.get(2).getNombre());
+            vEA.getBtn3().setEnabled(true);
+            vEA.getBtn4().setText(asignaturas.get(3).getNombre());
+            vEA.getBtn4().setEnabled(true);
+            vEA.getBtn5().setText(asignaturas.get(4).getNombre());
+            vEA.getBtn5().setEnabled(true);
+            vEA.getBtn6().setText(asignaturas.get(5).getNombre());
+            vEA.getBtn6().setEnabled(true);
+        } catch(IndexOutOfBoundsException ex) {
+            
+        }
+    }
+    
+    private void btnIniciarSesionActionPerformed() {
+        try {
+                    vPrincipal.getTxtCodigo().setText("1000");/////////////////////////////////////////
+            boolean correcto = daoU.autenticar(
+                    vPrincipal.getTxtCodigo().getText(),
+                    new String(vPrincipal.getPswClave().getPassword()));
+            if (correcto) {
+                Usuario usuario = listaUsuarios.get(vPrincipal.getTxtCodigo().getText());
+                
+                vPrincipal.getTxtCodigo().setText("");
+                vPrincipal.getPswClave().setText("");
+                if (usuario.getCodigo().equals("0000")) {
+                    irDesdeAVentana(vPrincipal, vAdmin);
+                    listarEntidad(obtenerDAOActual());
+                } else if (usuario.getTipo()==TipoUsuario.ESTUDIANTE) {
+                    estudiante = (Estudiante)usuario;
+                    irDesdeAVentana(vPrincipal, vEstudiantes);
+                } else if (usuario.getTipo()==TipoUsuario.PROFESOR) {
+                    profesor = (Profesor)usuario;
+                    irDesdeAVentana(vPrincipal, vProfesores);
+                }
+            } else {
+                JOptionPane.showMessageDialog(vPrincipal, "Código o Contraseña incorrectos");
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(vPrincipal, "Formato de código incorrecto");
+        } catch (SQLException ex) {
+            System.out.println("Error SQL al autenticar");
+        }
+    }
+    
+    private void listarAsignaturasDeUsuario(Usuario usuario, JTable tabla) {
+        ArrayList<Asignatura> lista = usuario.getAsignaturas();
+        DefaultTableModel md = (DefaultTableModel)tabla.getModel();
+        md.setRowCount(0);
+        
+        for (Asignatura i : lista) {
+            Object fila[] = {i.getId(), i, i.getProfesor().getNombre()};
+            md.addRow(fila);
+        }
+    }
+    
     private void irDesdeAVentana(JFrame origen, JFrame destino) {
         destino.setVisible(true);
         origen.dispose();
@@ -125,7 +201,7 @@ public class Control implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vPrincipal.getBtnIniciarSesion()) {
+        if (e.getSource()==vPrincipal.getBtnIniciarSesion()) {
             btnIniciarSesionActionPerformed();
         }
         
@@ -161,59 +237,61 @@ public class Control implements ActionListener {
         }
         if (e.getSource()==vAdmin.getBtnVolver()) {
             irDesdeAVentana(vAdmin, vPrincipal);
+            try {
+                HashMap<Integer, Asignatura> listaAsignaturas = daoA.cargarAsignaturas();
+                daoT.cargarRelaciones(listaAsignaturas);
+                listaUsuarios = daoU.cargarUsuarios();
+            } catch (SQLException ex) {
+                
+            }
         }
         
-        if (e.getSource() == vEstudiantes.getBtnAsignaturas()) {
+        if (e.getSource()==vEstudiantes.getBtnAsignaturas()) {
             vEA.setVisible(true);
-            //vEC.setVisible(false);
-            //vET.setVisible(false);
+            vEC.setVisible(false);
+            vET.setVisible(false);
+            rellenarPaneles(estudiante.getAsignaturas());
+            listarAsignaturasDeUsuario(estudiante, vEA.getTblTabla());
         }
-        if (e.getSource() == vEstudiantes.getBtnCalificaciones()) {
+        if (e.getSource()==vEstudiantes.getBtnCalificaciones()) {
             vEC.setVisible(true);
-            //vEA.setVisible(false);
-            //vET.setVisible(false);
+            vEA.setVisible(false);
+            vET.setVisible(false);
         }
-        if (e.getSource() == vEstudiantes.getBtnTalleres()) {
+        if (e.getSource()==vEstudiantes.getBtnTalleres()) {
             vET.setVisible(true);
-            //vEA.setVisible(false);
-            //vEC.setVisible(false);
+            vEA.setVisible(false);
+            vEC.setVisible(false);
         }
-        if (e.getSource() == vEstudiantes.getBtnCerrarSesion()) {
+        if (e.getSource()==vEstudiantes.getBtnCerrarSesion()) {
             irDesdeAVentana(vEstudiantes, vPrincipal);
         }
-        //if (e.getSource() == vEstudiantes.getBtnVolver()) {}
         
-    }
-
-    private void btnIniciarSesionActionPerformed() {
-        try {
-            Usuario usuario = daoU.autenticar(
-                    vPrincipal.getTxtCodigo().getText(),
-                    new String(vPrincipal.getPswClave().getPassword()));
-            if (usuario!=null) {
-                if (usuario.getCodigo().equals("0000")) {
-                    irDesdeAVentana(vPrincipal, vAdmin);
-                    relistar(obtenerDAOActual());
-                } else if (usuario.getTipo()==TipoUsuario.ESTUDIANTE) {
-                    estudiante = (Estudiante)usuario;
-                    irDesdeAVentana(vPrincipal, vEstudiantes);
-                } else if (usuario.getTipo()==TipoUsuario.PROFESOR) {
-                    profesor = (Profesor)usuario;
-                    irDesdeAVentana(vPrincipal, vProfesores);
-                }
-            } else {
-                JOptionPane.showMessageDialog(vPrincipal, "Código o Contraseña incorrectos");
-            }
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(vPrincipal, "Formato de código incorrecto");
-        } catch (SQLException ex) {
-            System.out.println("Error SQL al autenticar");
+        if (e.getSource()==vEA.getBtn1()) {
+            
+        }
+        if (e.getSource()==vEA.getBtn2()) {
+            
+        }
+        if (e.getSource()==vEA.getBtn3()) {
+            
+        }
+        if (e.getSource()==vEA.getBtn4()) {
+            
+        }
+        if (e.getSource()==vEA.getBtn5()) {
+            
+        }
+        if (e.getSource()==vEA.getBtn6()) {
+            
+        }
+        if (e.getSource()==vEA.getBtnSeleccionar()) {
+            
         }
     }
     
-    
     private boolean confirmarSeleccionado(Registrable registrable) {
-        boolean noNulo = registrable!=null;
+        boolean noNulo = (registrable!=null);
         if (noNulo) {
             vAdmin.getBtnEliminar().setEnabled(true);
             vAdmin.getBtnHecho().setEnabled(true);
@@ -223,7 +301,7 @@ public class Control implements ActionListener {
     private void btnConfirmarAccionar() {
         confirmarSeleccionado((Registrable)obtenerSeleccionTabla(1));
     }             
-    private void relistar(DAO dao) {
+    private void listarEntidad(DAO dao) {
         cambiarVariables(null);
         vAdmin.getTblTabla().setVisible(true);
         vAdmin.getSpnTabla().setVisible(true);
@@ -234,6 +312,9 @@ public class Control implements ActionListener {
             DefaultTableModel md = (DefaultTableModel) vAdmin.getTblTabla().getModel();
             md.setRowCount(0);
             
+            if (seleccionadoUsuario) {
+                lista.removeFirst();
+            }
             for (Registrable i : lista) {
                 Object fila[] = i.obtenerCampos();
                 md.addRow(fila);
@@ -306,7 +387,7 @@ public class Control implements ActionListener {
         } catch (SQLException ex) {
             System.out.println("Error al insertar con "+dao.getClass());
         }
-        relistar(dao);
+        listarEntidad(dao);
     }
     private void btnEliminarAccionar() {
         try{
@@ -318,7 +399,7 @@ public class Control implements ActionListener {
                 } catch (SQLException ex) {
                     System.out.println("Error al eliminar con "+dao.getClass());
                 }
-                relistar(dao);
+                listarEntidad(dao);
             }
             cambiarVariables(dto);
         } catch (ArrayIndexOutOfBoundsException ex) {
@@ -390,7 +471,7 @@ public class Control implements ActionListener {
                         System.out.println("El formato de los códigos es inválido");
                     }
                 }
-                relistar(dao);
+                listarEntidad(dao);
             }
         } catch (SQLException ex) {
             System.out.println("Error al actualizar con "+dao.getClass());
@@ -398,7 +479,7 @@ public class Control implements ActionListener {
     }
     private void btnListarAccionar() {
         vAdmin.getBtnConfirmar().setVisible(false);
-        relistar(obtenerDAOActual());
+        listarEntidad(obtenerDAOActual());
     }
     private void cambiarVariables(Registrable registrable) {
         vAdmin.getBtnEliminar().setEnabled(false);
@@ -469,7 +550,7 @@ public class Control implements ActionListener {
         seleccionadoRelacion = false;
         
         cambiarVariables(null);
-        relistar(obtenerDAOActual());
+        listarEntidad(obtenerDAOActual());
     }
     private void btnMenuAsignaturaAccionar() {
         seleccionadoAsignatura = true;
@@ -477,7 +558,7 @@ public class Control implements ActionListener {
         seleccionadoRelacion = false;
         
         cambiarVariables(null);
-        relistar(obtenerDAOActual());
+        listarEntidad(obtenerDAOActual());
     }
     private void btnMenuUsuarioAsignaturaAccionar() {
         seleccionadoRelacion = true;
@@ -485,7 +566,7 @@ public class Control implements ActionListener {
         seleccionadoAsignatura = false;
         
         cambiarVariables(null);
-        relistar(obtenerDAOActual());
+        listarEntidad(obtenerDAOActual());
     }
     
 

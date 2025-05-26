@@ -14,12 +14,12 @@ public class UsuarioDAO implements DAO {
     private  final String SQL_OBTENER_POR_CODIGO = "SELECT * FROM Usuario WHERE codigo=?";
     
     
-    public Usuario autenticar(String codigo, String clave) throws NumberFormatException, SQLException {
+    public boolean autenticar(String codigo, String clave) throws NumberFormatException, SQLException {
         Usuario usuario = obtenerPorCodigo(Integer.parseInt(codigo));
         if (usuario!=null && usuario.getClave().equals(clave)) {
-            return usuario;
+            return true;
         }
-        return null;
+        return false;
     }
     
     public HashMap<String, Usuario> cargarUsuarios() throws SQLException {

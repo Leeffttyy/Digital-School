@@ -27,14 +27,6 @@ public class Estudiantes extends javax.swing.JFrame {
     public void setEscritorio(JDesktopPane escritorio) {
         this.escritorio = escritorio;
     }
-
-    public JButton getBtnVolver() {
-        return btnVolver;
-    }
-
-    public void setBtnVolver(JButton btnVolver) {
-        this.btnVolver = btnVolver;
-    }
     
     public JButton getBtnAsignaturas() {
         return btnAsignaturas;
@@ -85,7 +77,6 @@ public class Estudiantes extends javax.swing.JFrame {
         btnTalleres = new javax.swing.JButton();
         btnCalificaciones = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
-        btnVolver = new javax.swing.JButton();
         escritorio = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,9 +106,6 @@ public class Estudiantes extends javax.swing.JFrame {
         btnCerrarSesion.setText("CERRAR SESION");
         btnCerrarSesion.setBorder(new javax.swing.border.MatteBorder(null));
 
-        btnVolver.setText("<- VOLVER");
-        btnVolver.setEnabled(false);
-
         javax.swing.GroupLayout plEncabezadoLayout = new javax.swing.GroupLayout(plEncabezado);
         plEncabezado.setLayout(plEncabezadoLayout);
         plEncabezadoLayout.setHorizontalGroup(
@@ -132,26 +120,19 @@ public class Estudiantes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCerrarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
-                    .addComponent(btnVolver, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(60, 60, 60))
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         plEncabezadoLayout.setVerticalGroup(
             plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(plEncabezadoLayout.createSequentialGroup()
-                .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAsignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(plEncabezadoLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(plEncabezadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnAsignaturas, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnTalleres, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCalificaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -250,7 +231,6 @@ public class Estudiantes extends javax.swing.JFrame {
     private javax.swing.JButton btnCalificaciones;
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnTalleres;
-    private javax.swing.JButton btnVolver;
     private javax.swing.JDesktopPane escritorio;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel9;
